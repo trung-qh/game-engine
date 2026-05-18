@@ -107,6 +107,7 @@ endforeach()
 add_library(engine SHARED
   engine/src/Application.cpp
   engine/src/platform/renderer/Renderer.cpp
+  engine/src/platform/time/Clock.cpp
   engine/src/platform/window/Window.cpp
 )
 

@@ -19,6 +19,13 @@ Renderer::~Renderer() {
   }
 }
 
+void Renderer::BeginFrame(const engine::Color& color) {
+  SDL_SetRenderDrawColor(renderer_, color.r, color.g, color.b, color.a);
+  SDL_RenderClear(renderer_);
+}
+
+void Renderer::EndFrame() { SDL_RenderPresent(renderer_); }
+
 void Renderer::DrawRect(float x, float y, float w, float h, float thickness, uint8_t r, uint8_t g,
                         uint8_t b, uint8_t a) {
   SDL_FRect top{x, y, w, thickness};

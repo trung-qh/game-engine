@@ -18,6 +18,9 @@ class Application {
  private:
   struct PlatformContext;
   std::unique_ptr<PlatformContext> context_;
+
+  float fixed_time_step_;
+  float accumulator_ = 0.0f;
 };
 
 }  // namespace engine
