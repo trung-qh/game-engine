@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace platform {
+namespace engine::platform {
 
 Renderer::Renderer(const Window& window) {
   renderer_ = SDL_CreateRenderer(window.NativeWindow(), nullptr);
@@ -19,7 +19,7 @@ Renderer::~Renderer() {
   }
 }
 
-void Renderer::BeginFrame(const engine::Color& color) {
+void Renderer::BeginFrame(const core::Color& color) {
   SDL_SetRenderDrawColor(renderer_, color.r, color.g, color.b, color.a);
   SDL_RenderClear(renderer_);
 }
@@ -128,4 +128,4 @@ void Renderer::DrawFilledCircle(float x, float y, float radius, uint8_t red, uin
                      (int)indices.size());
 }
 
-}  // namespace platform
+}  // namespace engine::platform

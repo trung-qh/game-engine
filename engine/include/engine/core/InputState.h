@@ -11,6 +11,8 @@ namespace platform {
 class Window;
 }
 
+namespace core {
+
 class InputState {
   friend class platform::Window;
 
@@ -19,43 +21,46 @@ class InputState {
   ~InputState() = default;
 
   bool IsKeyPressed(Key key) const {
-    return IsValidKey(key) && keyboard_[key] == KeyStates::Pressed;
+    return IsValidKey(key) && keyboard_[key] == KeyState::Pressed;
   }
   bool IsKeyReleased(Key key) const {
-    return IsValidKey(key) && keyboard_[key] == KeyStates::Released;
+    return IsValidKey(key) && keyboard_[key] == KeyState::Released;
   }
-  bool IsKeyUp(Key key) const { return IsValidKey(key) && keyboard_[key] == KeyStates::Up; }
+  bool IsKeyUp(Key key) const { return IsValidKey(key) && keyboard_[key] == KeyState::Up; }
   bool IsKeyDown(Key key) const {
     return IsValidKey(key) &&
-           (keyboard_[key] == KeyStates::Pressed || keyboard_[key] == KeyStates::Down);
+           (keyboard_[key] == KeyState::Pressed || keyboard_[key] == KeyState::Down);
   }
 
   bool IsMouseButtonPressed(MouseButton button) const {
-    return IsValidMouseButton(button) && mouse_[button] == MouseButtonStates::Pressed;
+    return IsValidMouseButton(button) && mouse_[button] == MouseButtonState::Pressed;
   }
   bool IsMouseButtonReleased(MouseButton button) const {
-    return IsValidMouseButton(button) && mouse_[button] == MouseButtonStates::Released;
+    return IsValidMouseButton(button) && mouse_[button] == MouseButtonState::Released;
   }
   bool IsMouseButtonUp(MouseButton button) const {
-    return IsValidMouseButton(button) && mouse_[button] == MouseButtonStates::Up;
-  }
-  bool IsMouseButtonDown(MouseButton button) const {
-    return IsValidMouseButton(button) && (mouse_[button] == MouseButtonStates::Pressed ||
-                                          mouse_[button] == MouseButtonStates::Down);
+    return IsValidMouseButton(button) && mouse_[button] == MouseButtonState::Up;
   }
 
   const MouseMoveInput& GetMousePosition() const { return mouse_pos_; }
 
   void AdvanceFrame();
 
+  bool IsValidKey(Key key) const { return key >= 0 && key < KeyCode::Count; }
+  bool IsValidMouseButton(MouseButton button) const {
+    return button >= 0 && button < MouseButtons::Count;
+  }
+
+  void SetKeyState(Key key, KeyState state) { keyboard_[key] = state; }
+  void SetMouseButtonState(MouseButton button, MouseButtonState state) { mouse_[button] = state; }
+  void SetMousePosition(MouseMoveInput pos) { mouse_pos_ = pos; }
+
  private:
-  std::array<KeyState, KeyCodes::Count> keyboard_{};
+  std::array<KeyState, KeyCode::Count> keyboard_{};
 
   std::array<MouseButtonState, MouseButtons::Count> mouse_{};
   MouseMoveInput mouse_pos_{};
-
-  bool IsValidKey(Key key) const { return key < KeyCodes::Count; }
-  bool IsValidMouseButton(MouseButton button) const { return button < MouseButtons::Count; }
 };
 
+}  // namespace core
 }  // namespace engine

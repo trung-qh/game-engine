@@ -2,7 +2,7 @@
 
 #include <SDL3/SDL.h>
 
-namespace platform {
+namespace engine::platform {
 
 namespace {
 
@@ -28,4 +28,4 @@ TimeStep Clock::Tick() {
   return TimeStep(delta_time_seconds);
 }
 
-}  // namespace platform
+}  // namespace engine::platform

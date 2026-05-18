@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace engine {
+namespace engine::core {
 
 struct Color {
   uint8_t r = 0;
@@ -23,4 +23,4 @@ static const Color Blue = {0, 0, 255, 255};
 
 }  // namespace colors
 
-}  // namespace engine
+}  // namespace engine::core

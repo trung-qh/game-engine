@@ -1,23 +1,23 @@
 #include "engine/core/InputState.h"
 
-namespace engine {
+namespace engine::core {
 
 void InputState::AdvanceFrame() {
   for (auto& key_state : keyboard_) {
-    if (key_state == KeyStates::Pressed) {
-      key_state = KeyStates::Down;
-    } else if (key_state == KeyStates::Released) {
-      key_state = KeyStates::Up;
+    if (key_state == KeyState::Pressed) {
+      key_state = KeyState::Down;
+    } else if (key_state == KeyState::Released) {
+      key_state = KeyState::Up;
     }
   }
 
   for (auto& mouse_state : mouse_) {
-    if (mouse_state == MouseButtonStates::Pressed) {
-      mouse_state = MouseButtonStates::Down;
-    } else if (mouse_state == MouseButtonStates::Released) {
-      mouse_state = MouseButtonStates::Up;
+    if (mouse_state == MouseButtonState::Pressed) {
+      mouse_state = MouseButtonState::Down;
+    } else if (mouse_state == MouseButtonState::Released) {
+      mouse_state = MouseButtonState::Up;
     }
   }
 }
 
-}  // namespace engine
+}  // namespace engine::core

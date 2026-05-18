@@ -4,14 +4,20 @@
 #include "engine/core/Color.h"
 #include "platform/window/Window.h"
 
-namespace platform {
+namespace engine::platform {
 
 class Renderer {
  public:
   Renderer(const Window& window);
   ~Renderer();
 
-  void BeginFrame(const engine::Color& color = engine::colors::Black);
+  Renderer(const Renderer&) = delete;
+  Renderer& operator=(const Renderer&) = delete;
+
+  Renderer(Renderer&&) = delete;
+  Renderer& operator=(Renderer&&) = delete;
+
+  void BeginFrame(const core::Color& color = core::colors::Black);
   void EndFrame();
 
   void DrawRect(float x, float y, float w, float h, float thickness, uint8_t r, uint8_t g,
@@ -28,4 +34,4 @@ class Renderer {
   SDL_Renderer* renderer_;
 };
 
-}  // namespace platform
+}  // namespace engine::platform

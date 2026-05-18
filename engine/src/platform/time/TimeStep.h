@@ -1,6 +1,6 @@
 #pragma once
 
-namespace platform {
+namespace engine::platform {
 
 class TimeStep {
  public:
@@ -14,4 +14,4 @@ class TimeStep {
   float time_seconds_ = 0.0;
 };
 
-}  // namespace platform
+}  // namespace engine::platform

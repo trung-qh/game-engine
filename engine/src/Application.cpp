@@ -1,5 +1,6 @@
 #include "engine/Application.h"
 
+#include "platform/Context.h"
 #include "platform/renderer/Renderer.h"
 #include "platform/time/Clock.h"
 #include "platform/window/Window.h"
@@ -7,9 +8,12 @@
 namespace engine {
 
 struct Application::PlatformContext {
+  platform::Context context;
   platform::Window window;
   platform::Renderer renderer;
   platform::Clock clock;
+
+  core::InputState input_state;
 
   PlatformContext(const char* title, int width, int height)
       : window(title, width, height), renderer(window) {}
@@ -24,7 +28,7 @@ Application::~Application() = default;
 void Application::Run() {
   OnInit();
 
-  while (context_->window.PollEvents()) {
+  while (context_->window.PollEvents(context_->input_state)) {
     float delta_time = context_->clock.Tick().GetSeconds();
     accumulator_ += delta_time;
 
@@ -36,6 +40,7 @@ void Application::Run() {
     context_->renderer.BeginFrame();
     // Render world
     context_->renderer.EndFrame();
+    context_->input_state.AdvanceFrame();
   }
 
   OnShutdown();

@@ -1,15 +1,22 @@
 #pragma once
 
 #include "SDL3/SDL.h"
+#include "engine/core/InputState.h"
 
-namespace platform {
+namespace engine::platform {
 
 class Window {
  public:
   Window(const char* title, int width, int height);
   ~Window();
 
-  bool PollEvents();
+  Window(const Window&) = delete;
+  Window& operator=(const Window&) = delete;
+
+  Window(Window&&) = delete;
+  Window& operator=(Window&&) = delete;
+
+  bool PollEvents(core::InputState& input_state);
 
   SDL_Window* NativeWindow() const { return window_; }
 
@@ -17,4 +24,4 @@ class Window {
   SDL_Window* window_ = nullptr;
 };
 
-}  // namespace platform
+}  // namespace engine::platform
