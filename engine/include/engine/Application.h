@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 namespace engine {
 
 class Application {
@@ -14,6 +16,8 @@ class Application {
   virtual void OnShutdown() = 0;
 
  private:
+  struct PlatformContext;
+  std::unique_ptr<PlatformContext> context_;
 };
 
 }  // namespace engine

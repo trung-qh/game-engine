@@ -1,24 +1,27 @@
 #include "engine/Application.h"
 
-#include "SDL3/SDL.h"
+#include "platform/renderer/Renderer.h"
+#include "platform/window/Window.h"
 
 namespace engine {
 
-Application::Application(const char* title, int width, int height, float fixed_time_step) {}
+struct Application::PlatformContext {
+  platform::Window window;
+  platform::Renderer renderer;
+
+  PlatformContext(const char* title, int width, int height, float fixed_time_step)
+      : window(title, width, height), renderer(window) {}
+};
+
+Application::Application(const char* title, int width, int height, float fixed_time_step)
+    : context_(std::make_unique<PlatformContext>(title, width, height, fixed_time_step)) {}
 
 Application::~Application() = default;
 
 void Application::Run() {
   OnInit();
 
-  bool running = true;
-  while (running) {
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-      if (event.type == SDL_EVENT_QUIT) {
-        running = false;
-      }
-    }
+  while (context_->window.PollEvents()) {
   }
 
   OnShutdown();
