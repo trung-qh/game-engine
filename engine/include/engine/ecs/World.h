@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <vector>
 
+#include "engine/core/InputState.h"
 #include "engine/ecs/Registry.h"
 #include "engine/ecs/interfaces/ISystem.h"
 
@@ -11,7 +12,7 @@ namespace engine {
 
 class World {
  public:
-  World();
+  World(float fixed_time_step);
   ~World();
 
   World(const World&) = delete;
@@ -26,9 +27,14 @@ class World {
     systems_.emplace_back(std::make_unique<System>());
   }
 
+  void Update(const core::InputState& input_state, float delta_time);
+
   Registry& Reg() { return registry_; }
 
  private:
+  float fixed_time_step_ = 1.0f / 60.0f;
+  float accumulator_ = 0.0f;
+
   Registry registry_;
   std::vector<std::unique_ptr<ISystem>> systems_;
 };
