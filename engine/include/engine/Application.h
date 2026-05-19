@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include "engine/ecs/World.h"
+
 namespace engine {
 
 class Application {
@@ -12,6 +14,8 @@ class Application {
   void Run();
 
  protected:
+  World world_;
+
   virtual void OnInit() = 0;
   virtual void OnShutdown() = 0;
 
