@@ -22,19 +22,19 @@ Entity Registry::CreateEntity() {
 
 void Registry::DestroyEntity(Entity entity) {
   if (IsAlive(entity)) {
-    for (auto& [_, pool] : component_pools_) {
-      pool->Remove(entity);
-    }
-
     entity_metadata_[entity].is_alive = false;
     ++entity_metadata_[entity].generation;
 
-    entities_to_flush_.push_back(entity.id);
+    entities_to_flush_.push_back(entity);
   }
 }
 
 void Registry::Flush() {
   for (auto entity : entities_to_flush_) {
+    for (auto& [type, pool] : component_pools_) {
+      pool->Remove(entity);
+    }
+
     available_entity_ids_.push(entity);
   }
 

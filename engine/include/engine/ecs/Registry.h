@@ -83,7 +83,8 @@ class Registry {
       entities = nullptr;
     }
 
-    auto base = entities == nullptr ? std::span<const Entity>{} : std::span<const Entity>{*entities};
+    auto base =
+        entities == nullptr ? std::span<const Entity>{} : std::span<const Entity>{*entities};
     return base | std::views::filter([this](Entity entity) { return Has<First, Rest...>(entity); });
   }
 
@@ -97,7 +98,7 @@ class Registry {
  private:
   std::queue<uint32_t> available_entity_ids_;
   std::vector<EntityMetadata> entity_metadata_;
-  std::vector<uint32_t> entities_to_flush_;
+  std::vector<Entity> entities_to_flush_;
 
   std::unordered_map<std::type_index, std::unique_ptr<IComponentPool>> component_pools_;
 

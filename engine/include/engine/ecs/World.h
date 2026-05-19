@@ -32,7 +32,7 @@ class World {
   Registry& Reg() { return registry_; }
 
  private:
-  float fixed_time_step_ = 1.0f / 60.0f;
+  float fixed_time_step_ = 1.0f / 120.0f;
   float accumulator_ = 0.0f;
 
   Registry registry_;

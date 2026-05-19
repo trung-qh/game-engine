@@ -2,7 +2,14 @@
 
 namespace engine {
 
-World::World(float fixed_time_step) : fixed_time_step_(fixed_time_step) {}
+World::World(float fixed_time_step) {
+  if (fixed_time_step <= 0.0f) {
+    throw std::runtime_error("Fixed time step must be greater than 0.0f");
+  }
+
+  fixed_time_step_ = fixed_time_step;
+  accumulator_ = 0.0f;
+}
 
 World::~World() {}
 
@@ -18,6 +25,8 @@ void World::Update(const core::InputState& input_state, float delta_time) {
 
     accumulator_ -= fixed_time_step_;
   }
+
+  registry_.Flush();
 }
 
 }  // namespace engine
