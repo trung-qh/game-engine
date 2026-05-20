@@ -22,16 +22,16 @@ class ComponentPool : public IComponentPool {
   ~ComponentPool() = default;
 
   void Add(Entity entity, T component) {
-    if (entity.id >= entity_to_index_.size()) {
-      entity_to_index_.resize(entity.id + 1, kInvalidIndex);
+    if (entity >= entity_to_index_.size()) {
+      entity_to_index_.resize(entity + 1, kInvalidIndex);
     }
 
     if (Has(entity)) {
-      components_[entity_to_index_[entity.id]] = component;
+      components_[entity_to_index_[entity]] = component;
       return;
     }
 
-    entity_to_index_[entity.id] = static_cast<uint32_t>(components_.size());
+    entity_to_index_[entity] = static_cast<uint32_t>(components_.size());
     components_.emplace_back(component);
     entities_.emplace_back(entity);
   }
@@ -39,7 +39,7 @@ class ComponentPool : public IComponentPool {
   void Remove(Entity entity) override {
     if (!Has(entity)) return;
 
-    auto index = entity_to_index_[entity.id];
+    auto index = entity_to_index_[entity];
     auto last_index = components_.size() - 1;
 
     if (index != last_index) {
@@ -50,18 +50,18 @@ class ComponentPool : public IComponentPool {
 
     components_.pop_back();
     entities_.pop_back();
-    entity_to_index_[entity.id] = kInvalidIndex;
+    entity_to_index_[entity] = kInvalidIndex;
   }
 
   bool Has(Entity entity) const {
-    return entity.id < entity_to_index_.size() && entity_to_index_[entity.id] != kInvalidIndex &&
-           entities_[entity_to_index_[entity.id]].generation == entity.generation;
+    return entity < entity_to_index_.size() && entity_to_index_[entity] != kInvalidIndex &&
+           entities_[entity_to_index_[entity]].generation == entity.generation;
   }
 
   const T* TryGet(Entity entity) const {
     if (!Has(entity)) return nullptr;
 
-    const auto index = entity_to_index_[entity.id];
+    const auto index = entity_to_index_[entity];
     return &components_[index];
   }
 
