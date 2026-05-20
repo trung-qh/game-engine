@@ -1,12 +1,19 @@
 #pragma once
 
 #include <memory>
+#include <queue>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "engine/core/InputState.h"
+#include "engine/ecs/Commands.h"
 #include "engine/ecs/ISystem.h"
-#include "engine/entity/Registry.h"
+
+namespace engine::entity {
+struct Entity;
+class Registry;
+}  // namespace engine::entity
 
 namespace engine {
 
@@ -29,13 +36,38 @@ class World {
 
   void Update(core::InputState& input_state, float delta_time);
 
-  entity::Registry& Reg() { return registry_; }
+  entity::Entity CreateEntity();
+  void DestroyEntity(entity::Entity entity);
+
+  template <typename T, typename... Args>
+  void AddComponent(entity::Entity entity, Args&&... args) {
+    commands_.push(
+        std::make_unique<AddComponentCommand<T>>(entity, T{std::forward<Args>(args)...}));
+  }
+
+  template <typename T>
+  void RemoveComponent(entity::Entity entity) {
+    commands_.push(std::make_unique<RemoveComponentCommand<T>>(entity));
+  }
+
+  template <typename First, typename... Rest>
+  auto View() const {
+    return registry_->View<First, Rest...>();
+  }
+
+  template <typename First, typename... Rest, typename Func>
+  void Each(Func&& func) {
+    registry_->Each<First, Rest...>(std::forward<Func>(func));
+  }
 
  private:
+  void FlushCommands();
+
   float fixed_time_step_ = 1.0f / 120.0f;
   float accumulator_ = 0.0f;
 
-  entity::Registry registry_;
+  std::unique_ptr<entity::Registry> registry_;
+  std::queue<std::unique_ptr<ICommand>> commands_;
 
   std::vector<std::unique_ptr<ISystem>> systems_;
 };

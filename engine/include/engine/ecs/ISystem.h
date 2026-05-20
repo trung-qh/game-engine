@@ -1,12 +1,12 @@
 #pragma once
 
 #include "engine/core/InputState.h"
-#include "engine/entity/Registry.h"
 
 namespace engine {
+class World;
 
 struct UpdateContext {
-  entity::Registry& registry;
+  World& world;
   const core::InputState& input_state;
   const float fixed_time_step;
 };
