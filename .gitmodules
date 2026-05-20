@@ -1,6 +1,6 @@
-[submodule "engine/vendor/SDL_ttf"]
-	path = engine/vendor/SDL_ttf
+[submodule "modules/platform/vendor/SDL_ttf"]
+	path = modules/platform/vendor/SDL_ttf
 	url = https://github.com/libsdl-org/SDL_ttf
-[submodule "engine/vendor/SDL"]
-	path = engine/vendor/SDL
+[submodule "modules/platform/vendor/SDL"]
+	path = modules/platform/vendor/SDL
 	url = https://github.com/libsdl-org/SDL
