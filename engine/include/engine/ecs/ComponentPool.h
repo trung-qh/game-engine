@@ -13,26 +13,25 @@ namespace engine {
 
 namespace internal {
 
-constexpr uint32_t kInvalidIndex = std::numeric_limits<uint32_t>::max();
-
 template <typename T>
 class ComponentPool : public IComponentPool {
  public:
   ComponentPool() = default;
   ~ComponentPool() = default;
 
-  void Add(Entity entity, T component) {
+  template <typename... Args>
+  void Add(Entity entity, Args&&... args) {
     if (entity >= entity_to_index_.size()) {
-      entity_to_index_.resize(entity + 1, kInvalidIndex);
+      entity_to_index_.resize(entity + 1, kInvalidEntityId);
     }
 
     if (Has(entity)) {
-      components_[entity_to_index_[entity]] = component;
+      components_[entity_to_index_[entity]] = T(std::forward<Args>(args)...);
       return;
     }
 
     entity_to_index_[entity] = static_cast<uint32_t>(components_.size());
-    components_.emplace_back(component);
+    components_.emplace_back(std::forward<Args>(args)...);
     entities_.emplace_back(entity);
   }
 
@@ -50,11 +49,11 @@ class ComponentPool : public IComponentPool {
 
     components_.pop_back();
     entities_.pop_back();
-    entity_to_index_[entity] = kInvalidIndex;
+    entity_to_index_[entity] = kInvalidEntityId;
   }
 
   bool Has(Entity entity) const {
-    return entity < entity_to_index_.size() && entity_to_index_[entity] != kInvalidIndex &&
+    return entity < entity_to_index_.size() && entity_to_index_[entity] != kInvalidEntityId &&
            entities_[entity_to_index_[entity]].generation == entity.generation;
   }
 

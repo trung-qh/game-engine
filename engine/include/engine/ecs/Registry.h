@@ -8,6 +8,7 @@
 #include <typeindex>
 #include <typeinfo>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "engine/ecs/ComponentPool.h"
@@ -32,12 +33,12 @@ class Registry {
 
   bool IsAlive(Entity entity) const;
 
-  template <typename T>
-  void AddComponent(Entity entity, T component) {
+  template <typename T, typename... Args>
+  void AddComponent(Entity entity, Args&&... args) {
     if (!IsAlive(entity)) return;
 
     auto& pool = GetOrCreateComponentPool<T>();
-    pool.Add(entity, component);
+    pool.Add(entity, std::forward<Args>(args)...);
   }
 
   template <typename T>
@@ -90,7 +91,7 @@ class Registry {
   template <typename First, typename... Rest, typename Func>
   void Each(Func&& func) {
     for (auto entity : View<First, Rest...>()) {
-      func(entity, TryGetComponent<First>(entity), TryGetComponent<Rest>(entity)...);
+      func(entity, *TryGetComponent<First>(entity), TryGetComponent<Rest>(entity)...);
     }
   }
 
