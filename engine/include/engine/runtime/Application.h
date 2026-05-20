@@ -8,7 +8,7 @@ namespace engine {
 
 class Application {
  public:
-  Application(const char* title, int width, int height, float fixed_time_Step = 1.0f / 120.0f);
+  Application(const char* title, int width, int height, float fixed_time_step = 1.0f / 120.0f);
   virtual ~Application();
 
   void Run();
