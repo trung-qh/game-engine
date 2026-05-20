@@ -29,7 +29,6 @@ class Registry {
 
   Entity CreateEntity();
   void DestroyEntity(Entity entity);
-  void Flush();
 
   bool IsAlive(Entity entity) const;
 
@@ -98,7 +97,6 @@ class Registry {
  private:
   std::queue<uint32_t> available_entity_ids_;
   std::vector<EntityMetadata> entity_metadata_;
-  std::vector<Entity> entities_to_flush_;
 
   std::unordered_map<std::type_index, std::unique_ptr<IComponentPool>> component_pools_;
 

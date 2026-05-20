@@ -25,8 +25,6 @@ void World::Update(const core::InputState& input_state, float delta_time) {
 
     accumulator_ -= fixed_time_step_;
   }
-
-  registry_.Flush();
 }
 
 }  // namespace engine
