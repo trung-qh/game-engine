@@ -12,7 +12,7 @@
 
 #include "engine/ecs/ComponentPool.h"
 #include "engine/ecs/Entity.h"
-#include "engine/ecs/interfaces/IComponentPool.h"
+#include "engine/ecs/IComponentPool.h"
 
 namespace engine {
 

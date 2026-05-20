@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include "engine/ecs/World.h"
+#include "engine/World.h"
 
 namespace engine {
 
