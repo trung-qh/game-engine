@@ -11,11 +11,11 @@
 #include <utility>
 #include <vector>
 
-#include "engine/ecs/ComponentPool.h"
-#include "engine/ecs/Entity.h"
-#include "engine/ecs/IComponentPool.h"
+#include "engine/entity/ComponentPool.h"
+#include "engine/entity/Entity.h"
+#include "engine/entity/IComponentPool.h"
 
-namespace engine {
+namespace engine::entity {
 
 class Registry {
  public:
@@ -142,4 +142,4 @@ class Registry {
   }
 };
 
-}  // namespace engine
+}  // namespace engine::entity

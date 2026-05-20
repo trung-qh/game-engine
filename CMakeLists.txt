@@ -15,11 +15,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # The engine is a .dylib. PIC is needed when static module code becomes part of it.
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 add_subdirectory(modules/core)
+add_subdirectory(modules/entity)
 add_subdirectory(modules/platform)
 
 add_library(engine SHARED
   engine/src/runtime/Application.cpp
-  engine/src/ecs/Registry.cpp
   engine/src/World.cpp
 )
 
@@ -37,6 +37,7 @@ target_include_directories(engine
 target_link_libraries(engine
   PUBLIC
     engine::core
+    engine::entity
   PRIVATE
     engine::platform
 )
@@ -55,6 +56,9 @@ add_custom_target(engine_dist ALL
   COMMAND "${CMAKE_COMMAND}" -E copy_directory
           "${CMAKE_CURRENT_SOURCE_DIR}/modules/core/include/engine/core"
           "${ENGINE_DIST_DIR}/include/engine/core"
+  COMMAND "${CMAKE_COMMAND}" -E copy_directory
+          "${CMAKE_CURRENT_SOURCE_DIR}/modules/entity/include/engine/entity"
+          "${ENGINE_DIST_DIR}/include/engine/entity"
   COMMAND "${CMAKE_COMMAND}" -E copy
           "$<TARGET_FILE:engine>"
           "${ENGINE_DIST_DIR}/lib/$<TARGET_FILE_NAME:engine>"

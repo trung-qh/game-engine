@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <limits>
 
-namespace engine {
+namespace engine::entity {
 
 constexpr uint32_t kInvalidEntityId = std::numeric_limits<uint32_t>::max();
 
@@ -21,4 +21,4 @@ struct EntityMetadata {
   bool is_alive = true;
 };
 
-}  // namespace engine
+}  // namespace engine::entity

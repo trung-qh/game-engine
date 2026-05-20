@@ -6,7 +6,7 @@
 
 #include "engine/ISystem.h"
 #include "engine/core/InputState.h"
-#include "engine/ecs/Registry.h"
+#include "engine/entity/Registry.h"
 
 namespace engine {
 
@@ -29,13 +29,13 @@ class World {
 
   void Update(core::InputState& input_state, float delta_time);
 
-  Registry& Reg() { return registry_; }
+  entity::Registry& Reg() { return registry_; }
 
  private:
   float fixed_time_step_ = 1.0f / 120.0f;
   float accumulator_ = 0.0f;
 
-  Registry registry_;
+  entity::Registry registry_;
 
   std::vector<std::unique_ptr<ISystem>> systems_;
 };

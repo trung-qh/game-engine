@@ -6,10 +6,10 @@
 #include <utility>
 #include <vector>
 
-#include "engine/ecs/Entity.h"
-#include "engine/ecs/IComponentPool.h"
+#include "engine/entity/Entity.h"
+#include "engine/entity/IComponentPool.h"
 
-namespace engine {
+namespace engine::entity {
 
 namespace internal {
 
@@ -81,4 +81,4 @@ class ComponentPool : public IComponentPool {
 
 }  // namespace internal
 
-}  // namespace engine
+}  // namespace engine::entity

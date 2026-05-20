@@ -1,6 +1,6 @@
-#include "engine/ecs/Registry.h"
+#include "engine/entity/Registry.h"
 
-namespace engine {
+namespace engine::entity {
 
 Registry::Registry() {}
 
@@ -39,4 +39,4 @@ bool Registry::IsAlive(Entity entity) const {
          entity_metadata_[entity].is_alive;
 }
 
-}  // namespace engine
+}  // namespace engine::entity

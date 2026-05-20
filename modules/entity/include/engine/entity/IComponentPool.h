@@ -1,8 +1,8 @@
 #pragma once
 
-#include "engine/ecs/Entity.h"
+#include "engine/entity/Entity.h"
 
-namespace engine {
+namespace engine::entity {
 
 class IComponentPool {
  public:
@@ -12,4 +12,4 @@ class IComponentPool {
   virtual void Remove(Entity entity) = 0;
 };
 
-}  // namespace engine
+}  // namespace engine::entity
