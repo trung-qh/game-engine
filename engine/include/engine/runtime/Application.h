@@ -5,6 +5,7 @@
 #include "engine/ecs/World.h"
 
 namespace engine {
+class Renderer;
 
 class Application {
  public:
@@ -22,6 +23,8 @@ class Application {
  private:
   struct PlatformContext;
   std::unique_ptr<PlatformContext> context_;
+
+  std::unique_ptr<Renderer> renderer_;
 };
 
 }  // namespace engine

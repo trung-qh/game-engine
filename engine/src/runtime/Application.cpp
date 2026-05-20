@@ -4,6 +4,7 @@
 #include "platform/renderer/Renderer.h"
 #include "platform/time/Clock.h"
 #include "platform/window/Window.h"
+#include "renderer/Renderer.h"
 
 namespace engine {
 
@@ -20,7 +21,9 @@ struct Application::PlatformContext {
 };
 
 Application::Application(const char* title, int width, int height, float fixed_time_step)
-    : context_(std::make_unique<PlatformContext>(title, width, height)), world_(fixed_time_step) {}
+    : context_(std::make_unique<PlatformContext>(title, width, height)),
+      renderer_(std::make_unique<Renderer>(context_->renderer)),
+      world_(fixed_time_step) {}
 
 Application::~Application() = default;
 
@@ -32,7 +35,7 @@ void Application::Run() {
     world_.Update(context_->input_state, delta_time);
 
     context_->renderer.BeginFrame();
-    // Render world
+    renderer_->Render(world_);
     context_->renderer.EndFrame();
   }
 

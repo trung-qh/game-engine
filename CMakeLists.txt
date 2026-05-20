@@ -20,6 +20,7 @@ add_subdirectory(modules/platform)
 
 add_library(engine SHARED
   engine/src/ecs/World.cpp
+  engine/src/renderer/Renderer.cpp
   engine/src/runtime/Application.cpp
 )
 
