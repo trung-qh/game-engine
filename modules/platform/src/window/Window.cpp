@@ -1,13 +1,13 @@
 #include "platform/window/Window.h"
 
-#include <stdexcept>
+#include "platform/errors/SdlError.h"
 
 namespace engine::platform {
 
 Window::Window(const char* title, int width, int height) {
   window_ = SDL_CreateWindow(title, width, height, 0);
   if (window_ == nullptr) {
-    throw std::runtime_error("Failed to create SDL Window");
+    ThrowSdlError("SDL_CreateWindow failed");
   }
 }
 

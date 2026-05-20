@@ -1,10 +1,11 @@
 #pragma once
 
-#include <cstdint>
-
-#include "SDL3/SDL.h"
-#include "engine/core/Core.h"
+#include "engine/core/Color.h"
+#include "platform/renderer/Text.h"
 #include "platform/window/Window.h"
+
+struct SDL_Renderer;
+struct TTF_TextEngine;
 
 namespace engine::platform {
 
@@ -22,18 +23,21 @@ class Renderer {
   void BeginFrame(const core::Color& color = core::colors::Black);
   void EndFrame();
 
-  void DrawRect(float x, float y, float w, float h, float thickness, uint8_t r, uint8_t g,
-                uint8_t b, uint8_t a);
-  void DrawFilledRect(float x, float y, float w, float h, uint8_t r, uint8_t g, uint8_t b,
-                      uint8_t a);
+  void DrawRect(float x, float y, float w, float h, float thickness, const core::Color& color);
+  void DrawFilledRect(float x, float y, float w, float h, const core::Color& color);
 
-  void DrawCircle(float x, float y, float radius, float thickness, uint8_t red, uint8_t green,
-                  uint8_t blue, uint8_t alpha);
-  void DrawFilledCircle(float x, float y, float radius, uint8_t red, uint8_t green, uint8_t blue,
-                        uint8_t alpha, int segments);
+  void DrawCircle(float x, float y, float radius, float thickness, const core::Color& color);
+  void DrawFilledCircle(float x, float y, float radius, const core::Color& color,
+                        int segments = 64);
+
+  void DrawText(const Text& text, float x, float y, const core::Color& color);
+
+  SDL_Renderer* NativeRenderer() const { return renderer_; }
+  TTF_TextEngine* NativeTextEngine() const { return text_engine_; }
 
  private:
   SDL_Renderer* renderer_ = nullptr;
+  TTF_TextEngine* text_engine_ = nullptr;
 };
 
 }  // namespace engine::platform

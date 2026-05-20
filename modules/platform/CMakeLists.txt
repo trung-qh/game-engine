@@ -90,7 +90,10 @@ endforeach()
 
 add_library(engine_platform STATIC
   src/Context.cpp
+  src/errors/SdlError.cpp
+  src/renderer/Font.cpp
   src/renderer/Renderer.cpp
+  src/renderer/Text.cpp
   src/time/Clock.cpp
   src/window/Window.cpp
 )

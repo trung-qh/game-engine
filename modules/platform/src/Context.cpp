@@ -1,20 +1,23 @@
 #include "platform/Context.h"
 
 #include <stdexcept>
+#include <string>
 
 #include "SDL3/SDL.h"
 #include "SDL3_ttf/SDL_ttf.h"
+#include "platform/errors/SdlError.h"
 
 namespace engine::platform {
 
 Context::Context() {
   if (!SDL_Init(SDL_INIT_VIDEO)) {
-    throw std::runtime_error("SDL_Init failed");
+    ThrowSdlError("SDL_Init failed");
   }
 
   if (!TTF_Init()) {
+    const std::string error = FormatSdlError("TTF_Init failed");
     SDL_Quit();
-    throw std::runtime_error("TTF_Init failed");
+    throw std::runtime_error(error);
   }
 
   is_initialized_ = true;
@@ -27,4 +30,4 @@ Context::~Context() {
   }
 }
 
-}
+}  // namespace engine::platform
