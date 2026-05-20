@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 #include "SDL3/SDL.h"
 #include "engine/core/Color.h"
 #include "platform/window/Window.h"
@@ -31,7 +33,7 @@ class Renderer {
                         uint8_t alpha, int segments);
 
  private:
-  SDL_Renderer* renderer_;
+  SDL_Renderer* renderer_ = nullptr;
 };
 
 }  // namespace engine::platform

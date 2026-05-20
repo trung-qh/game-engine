@@ -1,5 +1,7 @@
 #include "engine/ecs/World.h"
 
+#include <stdexcept>
+
 namespace engine {
 
 World::World(float fixed_time_step) {
@@ -13,16 +15,17 @@ World::World(float fixed_time_step) {
 
 World::~World() {}
 
-void World::Update(const core::InputState& input_state, float delta_time) {
+void World::Update(core::InputState& input_state, float delta_time) {
   accumulator_ += delta_time;
 
-  UpdateContext context{registry_, input_state, fixed_time_step_};
-
   while (accumulator_ >= fixed_time_step_) {
+    UpdateContext context{registry_, input_state, fixed_time_step_};
+
     for (auto& system : systems_) {
       system->OnUpdate(context);
     }
 
+    input_state.AdvanceFrame();
     accumulator_ -= fixed_time_step_;
   }
 }

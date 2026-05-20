@@ -34,7 +34,6 @@ void Application::Run() {
     context_->renderer.BeginFrame();
     // Render world
     context_->renderer.EndFrame();
-    context_->input_state.AdvanceFrame();
   }
 
   OnShutdown();

@@ -1,14 +1,31 @@
 #include "platform/renderer/Renderer.h"
 
+#include <algorithm>
+#include <cmath>
+#include <string>
 #include <stdexcept>
 #include <vector>
 
 namespace engine::platform {
 
+namespace {
+
+[[noreturn]] void ThrowSdlError(const char* operation) {
+  throw std::runtime_error(std::string(operation) + ": " + SDL_GetError());
+}
+
+void CheckSdlResult(bool result, const char* operation) {
+  if (!result) {
+    ThrowSdlError(operation);
+  }
+}
+
+}  // namespace
+
 Renderer::Renderer(const Window& window) {
   renderer_ = SDL_CreateRenderer(window.NativeWindow(), nullptr);
   if (renderer_ == nullptr) {
-    throw std::runtime_error("Failed to create SDL Renderer");
+    ThrowSdlError("SDL_CreateRenderer failed");
   }
 }
 
@@ -20,11 +37,12 @@ Renderer::~Renderer() {
 }
 
 void Renderer::BeginFrame(const core::Color& color) {
-  SDL_SetRenderDrawColor(renderer_, color.r, color.g, color.b, color.a);
-  SDL_RenderClear(renderer_);
+  CheckSdlResult(SDL_SetRenderDrawColor(renderer_, color.r, color.g, color.b, color.a),
+                 "SDL_SetRenderDrawColor failed");
+  CheckSdlResult(SDL_RenderClear(renderer_), "SDL_RenderClear failed");
 }
 
-void Renderer::EndFrame() { SDL_RenderPresent(renderer_); }
+void Renderer::EndFrame() { CheckSdlResult(SDL_RenderPresent(renderer_), "SDL_RenderPresent failed"); }
 
 void Renderer::DrawRect(float x, float y, float w, float h, float thickness, uint8_t r, uint8_t g,
                         uint8_t b, uint8_t a) {
@@ -33,19 +51,19 @@ void Renderer::DrawRect(float x, float y, float w, float h, float thickness, uin
   SDL_FRect left{x, y, thickness, h};
   SDL_FRect right{x + w - thickness, y, thickness, h};
 
-  SDL_SetRenderDrawColor(renderer_, r, g, b, a);
-  SDL_RenderFillRect(renderer_, &top);
-  SDL_RenderFillRect(renderer_, &bottom);
-  SDL_RenderFillRect(renderer_, &left);
-  SDL_RenderFillRect(renderer_, &right);
+  CheckSdlResult(SDL_SetRenderDrawColor(renderer_, r, g, b, a), "SDL_SetRenderDrawColor failed");
+  CheckSdlResult(SDL_RenderFillRect(renderer_, &top), "SDL_RenderFillRect failed");
+  CheckSdlResult(SDL_RenderFillRect(renderer_, &bottom), "SDL_RenderFillRect failed");
+  CheckSdlResult(SDL_RenderFillRect(renderer_, &left), "SDL_RenderFillRect failed");
+  CheckSdlResult(SDL_RenderFillRect(renderer_, &right), "SDL_RenderFillRect failed");
 }
 
 void Renderer::DrawFilledRect(float x, float y, float w, float h, uint8_t r, uint8_t g, uint8_t b,
                               uint8_t a) {
   SDL_FRect rect{x, y, w, h};
 
-  SDL_SetRenderDrawColor(renderer_, r, g, b, a);
-  SDL_RenderFillRect(renderer_, &rect);
+  CheckSdlResult(SDL_SetRenderDrawColor(renderer_, r, g, b, a), "SDL_SetRenderDrawColor failed");
+  CheckSdlResult(SDL_RenderFillRect(renderer_, &rect), "SDL_RenderFillRect failed");
 }
 
 void Renderer::DrawCircle(float x, float y, float radius, float thickness, uint8_t red,
@@ -90,8 +108,9 @@ void Renderer::DrawCircle(float x, float y, float radius, float thickness, uint8
     indices.push_back(next_outer);
   }
 
-  SDL_RenderGeometry(renderer_, nullptr, vertices.data(), (int)vertices.size(), indices.data(),
-                     (int)indices.size());
+  CheckSdlResult(SDL_RenderGeometry(renderer_, nullptr, vertices.data(), (int)vertices.size(),
+                                    indices.data(), (int)indices.size()),
+                 "SDL_RenderGeometry failed");
 }
 
 void Renderer::DrawFilledCircle(float x, float y, float radius, uint8_t red, uint8_t green,
@@ -124,8 +143,9 @@ void Renderer::DrawFilledCircle(float x, float y, float radius, uint8_t red, uin
     indices.push_back(i + 1);  // Next point
   }
 
-  SDL_RenderGeometry(renderer_, nullptr, vertices.data(), (int)vertices.size(), indices.data(),
-                     (int)indices.size());
+  CheckSdlResult(SDL_RenderGeometry(renderer_, nullptr, vertices.data(), (int)vertices.size(),
+                                    indices.data(), (int)indices.size()),
+                 "SDL_RenderGeometry failed");
 }
 
 }  // namespace engine::platform

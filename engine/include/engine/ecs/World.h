@@ -27,7 +27,7 @@ class World {
     systems_.emplace_back(std::make_unique<System>());
   }
 
-  void Update(const core::InputState& input_state, float delta_time);
+  void Update(core::InputState& input_state, float delta_time);
 
   Registry& Reg() { return registry_; }
 
@@ -36,6 +36,7 @@ class World {
   float accumulator_ = 0.0f;
 
   Registry registry_;
+
   std::vector<std::unique_ptr<ISystem>> systems_;
 };
 
