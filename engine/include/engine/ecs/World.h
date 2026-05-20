@@ -4,8 +4,8 @@
 #include <type_traits>
 #include <vector>
 
-#include "engine/ISystem.h"
 #include "engine/core/InputState.h"
+#include "engine/ecs/ISystem.h"
 #include "engine/entity/Registry.h"
 
 namespace engine {

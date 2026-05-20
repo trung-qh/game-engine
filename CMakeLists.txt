@@ -19,8 +19,8 @@ add_subdirectory(modules/entity)
 add_subdirectory(modules/platform)
 
 add_library(engine SHARED
+  engine/src/ecs/World.cpp
   engine/src/runtime/Application.cpp
-  engine/src/World.cpp
 )
 
 add_library(engine::engine ALIAS engine)

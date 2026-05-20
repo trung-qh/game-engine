@@ -1,4 +1,4 @@
-#include "engine/World.h"
+#include "engine/ecs/World.h"
 
 #include <stdexcept>
 
