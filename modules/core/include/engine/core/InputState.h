@@ -5,9 +5,7 @@
 #include "engine/core/Keyboard.h"
 #include "engine/core/Mouse.h"
 
-namespace engine {
-
-namespace core {
+namespace engine::core {
 
 class InputState {
  public:
@@ -38,7 +36,23 @@ class InputState {
 
   const MouseMoveInput& GetMousePosition() const { return mouse_pos_; }
 
-  void AdvanceFrame();
+  void AdvanceFrame() {
+    for (auto& key_state : keyboard_) {
+      if (key_state == KeyState::Pressed) {
+        key_state = KeyState::Down;
+      } else if (key_state == KeyState::Released) {
+        key_state = KeyState::Up;
+      }
+    }
+
+    for (auto& mouse_state : mouse_) {
+      if (mouse_state == MouseButtonState::Pressed) {
+        mouse_state = MouseButtonState::Down;
+      } else if (mouse_state == MouseButtonState::Released) {
+        mouse_state = MouseButtonState::Up;
+      }
+    }
+  }
 
   bool IsValidKey(Key key) const { return key >= 0 && key < KeyCode::Count; }
   bool IsValidMouseButton(MouseButton button) const {
@@ -56,5 +70,4 @@ class InputState {
   MouseMoveInput mouse_pos_{};
 };
 
-}  // namespace core
-}  // namespace engine
+}  // namespace engine::core

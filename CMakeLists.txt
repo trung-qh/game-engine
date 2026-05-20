@@ -80,6 +80,7 @@ set(SDLTTF_INSTALL OFF CACHE BOOL "" FORCE)
 
 add_subdirectory("${VENDOR_DIR}/SDL" "${CMAKE_CURRENT_BINARY_DIR}/vendor/SDL" EXCLUDE_FROM_ALL)
 add_subdirectory("${VENDOR_DIR}/SDL_ttf" "${CMAKE_CURRENT_BINARY_DIR}/vendor/SDL_ttf" EXCLUDE_FROM_ALL)
+add_subdirectory(modules/core)
 
 # Vendored libraries can be chatty on newer compilers. Silence warnings for
 # third-party targets only, so warnings in engine code still remain visible.
@@ -106,7 +107,6 @@ endforeach()
 
 add_library(engine SHARED
   engine/src/Application.cpp
-  engine/src/core/InputState.cpp
   engine/src/ecs/Registry.cpp
   engine/src/ecs/World.cpp
   engine/src/platform/Context.cpp
@@ -127,6 +127,8 @@ target_include_directories(engine
 )
 
 target_link_libraries(engine
+  PUBLIC
+    engine::core
   PRIVATE
     SDL3::SDL3-static
     SDL3_ttf::SDL3_ttf-static
@@ -143,6 +145,9 @@ add_custom_target(engine_dist ALL
   COMMAND "${CMAKE_COMMAND}" -E copy_directory
           "${CMAKE_CURRENT_SOURCE_DIR}/engine/include/engine"
           "${ENGINE_DIST_DIR}/include/engine"
+  COMMAND "${CMAKE_COMMAND}" -E copy_directory
+          "${CMAKE_CURRENT_SOURCE_DIR}/modules/core/include/engine/core"
+          "${ENGINE_DIST_DIR}/include/engine/core"
   COMMAND "${CMAKE_COMMAND}" -E copy
           "$<TARGET_FILE:engine>"
           "${ENGINE_DIST_DIR}/lib/$<TARGET_FILE_NAME:engine>"
