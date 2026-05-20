@@ -13,13 +13,13 @@ struct Color {
 
 namespace colors {
 
-static const Color White = {255, 255, 255, 255};
-static const Color Black = {0, 0, 0, 255};
-static const Color Gray = {55, 55, 55, 255};
+inline constexpr Color White = {255, 255, 255, 255};
+inline constexpr Color Black = {0, 0, 0, 255};
+inline constexpr Color Gray = {55, 55, 55, 255};
 
-static const Color Red = {255, 0, 0, 255};
-static const Color Green = {0, 255, 0, 255};
-static const Color Blue = {0, 0, 255, 255};
+inline constexpr Color Red = {255, 0, 0, 255};
+inline constexpr Color Green = {0, 255, 0, 255};
+inline constexpr Color Blue = {0, 0, 255, 255};
 
 }  // namespace colors
 

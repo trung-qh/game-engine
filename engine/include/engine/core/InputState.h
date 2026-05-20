@@ -7,15 +7,9 @@
 
 namespace engine {
 
-namespace platform {
-class Window;
-}
-
 namespace core {
 
 class InputState {
-  friend class platform::Window;
-
  public:
   InputState() = default;
   ~InputState() = default;
