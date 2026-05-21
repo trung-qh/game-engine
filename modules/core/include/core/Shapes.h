@@ -1,5 +1,7 @@
 #pragma once
 
+#include <variant>
+
 namespace engine::core {
 
 struct Rect {
@@ -14,6 +16,8 @@ struct Circle {
   float y = 0.0f;
   float r = 0.0f;
 };
+
+using Shape = std::variant<Rect, Circle>;
 
 inline bool Intersecting(const Rect& a, const Rect& b) {
   return a.x <= b.x + b.w && a.x + a.w >= b.x && a.y <= b.y + b.h && a.y + a.h >= b.y;

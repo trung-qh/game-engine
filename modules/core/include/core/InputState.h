@@ -2,8 +2,8 @@
 
 #include <array>
 
-#include "engine/core/Keyboard.h"
-#include "engine/core/Mouse.h"
+#include "core/Keyboard.h"
+#include "core/Mouse.h"
 
 namespace engine::core {
 

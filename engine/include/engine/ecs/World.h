@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-#include "engine/core/InputState.h"
+#include "core/InputState.h"
 #include "engine/ecs/Commands.h"
 #include "engine/ecs/ISystem.h"
 

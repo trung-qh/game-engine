@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/core/InputState.h"
+#include "core/InputState.h"
 
 namespace engine {
 class World;

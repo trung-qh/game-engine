@@ -4,6 +4,7 @@
 
 #include "engine/ecs/World.h"
 #include "platform/renderer/Renderer.h"
+#include "renderer/TextManager.h"
 
 namespace engine {
 
@@ -22,6 +23,8 @@ class Renderer {
 
  private:
   platform::Renderer& native_renderer_;
+
+  TextManager text_manager_;
 };
 
 }  // namespace engine

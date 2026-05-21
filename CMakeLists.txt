@@ -21,6 +21,7 @@ add_subdirectory(modules/platform)
 add_library(engine SHARED
   engine/src/ecs/World.cpp
   engine/src/renderer/Renderer.cpp
+  engine/src/renderer/TextManager.cpp
   engine/src/runtime/Application.cpp
 )
 
@@ -50,16 +51,18 @@ set(ENGINE_DIST_DIR "${CMAKE_CURRENT_BINARY_DIR}/engine")
 add_custom_target(engine_dist ALL
   COMMAND "${CMAKE_COMMAND}" -E rm -rf "${ENGINE_DIST_DIR}"
   COMMAND "${CMAKE_COMMAND}" -E make_directory "${ENGINE_DIST_DIR}/include"
+  COMMAND "${CMAKE_COMMAND}" -E make_directory "${ENGINE_DIST_DIR}/include/core"
+  COMMAND "${CMAKE_COMMAND}" -E make_directory "${ENGINE_DIST_DIR}/include/entity"
   COMMAND "${CMAKE_COMMAND}" -E make_directory "${ENGINE_DIST_DIR}/lib"
   COMMAND "${CMAKE_COMMAND}" -E copy_directory
           "${CMAKE_CURRENT_SOURCE_DIR}/engine/include/engine"
           "${ENGINE_DIST_DIR}/include/engine"
   COMMAND "${CMAKE_COMMAND}" -E copy_directory
-          "${CMAKE_CURRENT_SOURCE_DIR}/modules/core/include/engine/core"
-          "${ENGINE_DIST_DIR}/include/engine/core"
+          "${CMAKE_CURRENT_SOURCE_DIR}/modules/core/include/core"
+          "${ENGINE_DIST_DIR}/include/core"
   COMMAND "${CMAKE_COMMAND}" -E copy_directory
-          "${CMAKE_CURRENT_SOURCE_DIR}/modules/entity/include/engine/entity"
-          "${ENGINE_DIST_DIR}/include/engine/entity"
+          "${CMAKE_CURRENT_SOURCE_DIR}/modules/entity/include/entity"
+          "${ENGINE_DIST_DIR}/include/entity"
   COMMAND "${CMAKE_COMMAND}" -E copy
           "$<TARGET_FILE:engine>"
           "${ENGINE_DIST_DIR}/lib/$<TARGET_FILE_NAME:engine>"

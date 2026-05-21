@@ -1,14 +1,12 @@
 #pragma once
 
-#include <string>
-
 struct TTF_Font;
 
 namespace engine::platform {
 
 class Font {
  public:
-  Font(const std::string& path, float size);
+  Font(const char* path, float size);
   ~Font();
 
   Font(const Font&) = delete;

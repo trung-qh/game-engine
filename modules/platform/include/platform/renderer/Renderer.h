@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/core/Color.h"
+#include "core/Color.h"
 #include "platform/renderer/Text.h"
 #include "platform/window/Window.h"
 

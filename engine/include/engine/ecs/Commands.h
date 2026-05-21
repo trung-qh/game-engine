@@ -2,7 +2,7 @@
 
 #include <utility>
 
-#include "engine/entity/Registry.h"
+#include "entity/Registry.h"
 
 namespace engine {
 

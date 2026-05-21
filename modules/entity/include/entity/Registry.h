@@ -11,9 +11,9 @@
 #include <utility>
 #include <vector>
 
-#include "engine/entity/ComponentPool.h"
-#include "engine/entity/Entity.h"
-#include "engine/entity/IComponentPool.h"
+#include "entity/ComponentPool.h"
+#include "entity/Entity.h"
+#include "entity/IComponentPool.h"
 
 namespace engine::entity {
 

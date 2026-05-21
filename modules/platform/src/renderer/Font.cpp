@@ -6,8 +6,8 @@
 
 namespace engine::platform {
 
-Font::Font(const std::string& path, float size) {
-  font_ = TTF_OpenFont(path.c_str(), size);
+Font::Font(const char* path, float size) {
+  font_ = TTF_OpenFont(path, size);
   if (font_ == nullptr) {
     ThrowSdlError("TTF_OpenFont failed");
   }

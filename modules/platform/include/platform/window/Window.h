@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SDL3/SDL.h"
-#include "engine/core/Core.h"
+#include "core/Core.h"
 
 namespace engine::platform {
 
