@@ -26,7 +26,7 @@ struct RenderableText {
   core::Font* font_ = nullptr;
   core::Color color_ = core::colors::White;
   bool visible_ = true;
-  float thickness_ = 1.0f;
+  float thickness_ = 0.0f;
 };
 
 struct Collider {

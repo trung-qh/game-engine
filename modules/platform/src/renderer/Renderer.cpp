@@ -29,6 +29,8 @@ Renderer::Renderer(const Window& window) {
     ThrowSdlError("SDL_CreateRenderer failed");
   }
 
+  CheckSdlResult(SDL_SetRenderVSync(renderer_, 1), "SDL_SetRenderVSync failed");
+
   text_engine_ = TTF_CreateRendererTextEngine(renderer_);
   if (text_engine_ == nullptr) {
     SDL_DestroyRenderer(renderer_);

@@ -193,8 +193,8 @@ class FpsSystem : public engine::ISystem {
       return;
     }
 
-    const float fps = static_cast<float>(frames_) / elapsed.count();
-    std::cout << "FPS: " << fps << '\n';
+    const float ticks_per_second = static_cast<float>(frames_) / elapsed.count();
+    std::cout << "FPS: " << ticks_per_second << '\n';
 
     frames_ = 0;
     last_report_ = now;

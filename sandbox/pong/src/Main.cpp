@@ -6,17 +6,17 @@
 #include "engine/runtime/EntryPoint.h"
 
 constexpr static const char* kTitle = "Pong";
-constexpr static int kWindowWidth = 800;
+constexpr static int kWindowWidth = 900;
 constexpr static int kWindowHeight = 600;
 constexpr static float kFixedTimeStep = 1.0f / 120.0f;
 
 constexpr static float kPaddleMargin = 30.0f;
 constexpr static float kPaddleWidth = 10.0f;
-constexpr static float kPaddleHeight = 100.0f;
-constexpr static float kPaddleSpeed = 500.0f;
+constexpr static float kPaddleHeight = 120.0f;
+constexpr static float kPaddleSpeed = 800.0f;
 
-constexpr static float kBallRadius = 5.0f;
-constexpr static float kBallSpeed = 500.0f;
+constexpr static float kBallRadius = 10.0f;
+constexpr static float kBallSpeed = 600.0f;
 
 constexpr static float kDividerWidth = 3.0f;
 
