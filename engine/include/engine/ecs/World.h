@@ -70,6 +70,8 @@ class World {
   std::queue<std::unique_ptr<ICommand>> commands_;
 
   std::vector<std::unique_ptr<ISystem>> systems_;
+
+  void CheckCollisions();
 };
 
 }  // namespace engine

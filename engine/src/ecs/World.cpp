@@ -1,6 +1,10 @@
 #include "engine/ecs/World.h"
 
+#include <cstddef>
 #include <stdexcept>
+#include <vector>
+
+#include "engine/ecs/Components.h"
 
 namespace engine {
 
@@ -22,14 +26,15 @@ void World::Update(core::InputState& input_state, float delta_time) {
 
   while (accumulator_ >= fixed_time_step_) {
     UpdateContext context{*this, input_state, fixed_time_step_};
-
     for (auto& system : systems_) {
       system->OnUpdate(context);
     }
 
     FlushCommands();
+    CheckCollisions();
 
     input_state.AdvanceFrame();
+
     accumulator_ -= fixed_time_step_;
   }
 }
@@ -44,6 +49,34 @@ void World::FlushCommands() {
   while (!commands_.empty()) {
     commands_.front()->Execute(*registry_);
     commands_.pop();
+  }
+}
+
+void World::CheckCollisions() {
+  std::vector<entity::Entity> entities;
+  for (auto entity : registry_->View<Collider>()) {
+    entities.emplace_back(entity);
+
+    if (auto* collider = registry_->TryGetComponent<Collider>(entity)) {
+      collider->others_.clear();
+    }
+  }
+
+  for (size_t i = 0; i < entities.size(); ++i) {
+    auto* collider = registry_->TryGetComponent<Collider>(entities[i]);
+    if (collider == nullptr) {
+      continue;
+    }
+
+    for (size_t j = i + 1; j < entities.size(); ++j) {
+      auto* other_collider = registry_->TryGetComponent<Collider>(entities[j]);
+      if (other_collider == nullptr || !Intersecting(collider->shape_, other_collider->shape_)) {
+        continue;
+      }
+
+      collider->others_.emplace_back(entities[j]);
+      other_collider->others_.emplace_back(entities[i]);
+    }
   }
 }
 

@@ -1,10 +1,12 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include "core/Color.h"
 #include "core/Font.h"
 #include "core/Shapes.h"
+#include "entity/Entity.h"
 
 namespace engine {
 
@@ -25,6 +27,11 @@ struct RenderableText {
 
   float x_ = 0.0f;
   float y_ = 0.0f;
+};
+
+struct Collider {
+  core::Shape shape_;
+  std::vector<entity::Entity> others_;
 };
 
 }  // namespace engine
