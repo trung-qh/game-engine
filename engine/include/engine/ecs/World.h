@@ -28,10 +28,10 @@ class World {
   World(World&&) = delete;
   World& operator=(World&&) = delete;
 
-  template <typename System>
-  void AddSystem() {
+  template <typename System, typename... Args>
+  void AddSystem(Args&&... args) {
     static_assert(std::is_base_of_v<ISystem, System>);
-    systems_.emplace_back(std::make_unique<System>());
+    systems_.emplace_back(std::make_unique<System>(std::forward<Args>(args)...));
   }
 
   void Update(core::InputState& input_state, float delta_time);
@@ -53,6 +53,31 @@ class World {
   template <typename First, typename... Rest>
   auto View() const {
     return registry_->View<First, Rest...>();
+  }
+
+  template <typename First, typename... Rest>
+  bool Has(entity::Entity entity) const {
+    return registry_->Has<First, Rest...>(entity);
+  }
+
+  template <typename T>
+  T* TryGet(entity::Entity entity) {
+    return registry_->TryGetComponent<T>(entity);
+  }
+
+  template <typename T>
+  const T* TryGet(entity::Entity entity) const {
+    return registry_->TryGetComponent<T>(entity);
+  }
+
+  template <typename T>
+  T& Get(entity::Entity entity) {
+    return *registry_->TryGetComponent<T>(entity);
+  }
+
+  template <typename T>
+  const T& Get(entity::Entity entity) const {
+    return *registry_->TryGetComponent<T>(entity);
   }
 
   template <typename First, typename... Rest, typename Func>

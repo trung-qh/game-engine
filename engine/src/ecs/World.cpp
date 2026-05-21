@@ -70,7 +70,7 @@ void World::CheckCollisions() {
 
     for (size_t j = i + 1; j < entities.size(); ++j) {
       auto* other_collider = registry_->TryGetComponent<Collider>(entities[j]);
-      if (other_collider == nullptr || !Intersecting(collider->shape_, other_collider->shape_)) {
+      if (other_collider == nullptr || !Intersecting(collider->body_, other_collider->body_)) {
         continue;
       }
 

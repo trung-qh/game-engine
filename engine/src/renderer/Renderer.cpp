@@ -21,14 +21,14 @@ void Renderer::Render(World& world) {
       return;
     }
 
-    if (const auto* rect = std::get_if<core::Rect>(&renderable.shape_)) {
+    if (const auto* rect = std::get_if<core::Rect>(&renderable.body_)) {
       if (renderable.is_solid_) {
         native_renderer_.DrawFilledRect(rect->x, rect->y, rect->w, rect->h, renderable.color_);
       } else {
         native_renderer_.DrawRect(rect->x, rect->y, rect->w, rect->h, renderable.thickness_,
                                   renderable.color_);
       }
-    } else if (const auto* circle = std::get_if<core::Circle>(&renderable.shape_)) {
+    } else if (const auto* circle = std::get_if<core::Circle>(&renderable.body_)) {
       if (renderable.is_solid_) {
         native_renderer_.DrawFilledCircle(circle->x, circle->y, circle->r, renderable.color_);
       } else {

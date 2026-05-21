@@ -20,6 +20,24 @@ struct Circle {
 
 using Shape = std::variant<Rect, Circle>;
 
+inline void Translate(Shape& shape, float dx, float dy) {
+  std::visit(
+      [dx, dy](auto& body) {
+        body.x += dx;
+        body.y += dy;
+      },
+      shape);
+}
+
+inline void SetPosition(Shape& shape, float new_x, float new_y) {
+  std::visit(
+      [new_x, new_y](auto& body) {
+        body.x = new_x;
+        body.y = new_y;
+      },
+      shape);
+}
+
 inline bool Intersecting(const Rect& a, const Rect& b) {
   return a.x <= b.x + b.w && a.x + a.w >= b.x && a.y <= b.y + b.h && a.y + a.h >= b.y;
 }
