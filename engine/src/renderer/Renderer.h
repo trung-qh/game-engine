@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include "engine/ecs/World.h"
 #include "platform/renderer/Renderer.h"
 #include "renderer/TextManager.h"

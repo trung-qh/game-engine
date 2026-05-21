@@ -1,9 +1,10 @@
 #pragma once
 
+#include <string>
+
 #include "core/Color.h"
 #include "core/Font.h"
 #include "core/Shapes.h"
-#include "entity/Entity.h"
 
 namespace engine {
 
@@ -16,7 +17,7 @@ struct RenderableShape {
 };
 
 struct RenderableText {
-  const char* text_;
+  std::string text_;
   core::Font* font_ = nullptr;
   core::Color color_;
   bool visible_ = true;

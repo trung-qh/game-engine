@@ -162,9 +162,17 @@ void Renderer::DrawFilledCircle(float x, float y, float radius, const core::Colo
                  "SDL_RenderGeometry failed");
 }
 
-void Renderer::DrawText(const Text& text, float x, float y, const core::Color& color) {
+void Renderer::DrawText(const Text& text, float x, float y, float thickness,
+                        const core::Color& color) {
   int text_w = 0;
   int text_h = 0;
+  TTF_Font* font = TTF_GetTextFont(text.NativeText());
+  if (font == nullptr) {
+    ThrowSdlError("TTF_GetTextFont failed");
+  }
+
+  CheckSdlResult(TTF_SetFontOutline(font, std::max(0, static_cast<int>(std::lround(thickness)))),
+                 "TTF_SetFontOutline failed");
   CheckSdlResult(TTF_GetTextSize(text.NativeText(), &text_w, &text_h), "TTF_GetTextSize failed");
 
   CheckSdlResult(TTF_SetTextColor(text.NativeText(), color.r, color.g, color.b, color.a),

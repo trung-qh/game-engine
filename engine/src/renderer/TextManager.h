@@ -26,9 +26,15 @@ class TextManager {
   platform::Text& GetNextText(const char* text, const platform::Font& font);
 
  private:
+  struct CachedFont {
+    std::string path;
+    float size = 0.0f;
+    std::unique_ptr<platform::Font> native_font;
+  };
+
   platform::Renderer& renderer_;
 
-  std::unordered_map<core::Font*, std::unique_ptr<platform::Font>> fonts_;
+  std::unordered_map<core::Font*, CachedFont> fonts_;
   std::vector<std::unique_ptr<platform::Text>> texts_;
   size_t next_text_index_ = 0;
 };

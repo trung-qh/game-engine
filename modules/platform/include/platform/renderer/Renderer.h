@@ -30,7 +30,7 @@ class Renderer {
   void DrawFilledCircle(float x, float y, float radius, const core::Color& color,
                         int segments = 64);
 
-  void DrawText(const Text& text, float x, float y, const core::Color& color);
+  void DrawText(const Text& text, float x, float y, float thickness, const core::Color& color);
 
   SDL_Renderer* NativeRenderer() const { return renderer_; }
   TTF_TextEngine* NativeTextEngine() const { return text_engine_; }

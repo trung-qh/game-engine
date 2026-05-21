@@ -2,10 +2,9 @@
 
 #include <variant>
 
-#include "core/Core.h"
+#include "core/Shapes.h"
 #include "engine/ecs/Components.h"
 #include "entity/Entity.h"
-#include "platform/renderer/Font.h"
 
 namespace engine {
 
@@ -40,14 +39,16 @@ void Renderer::Render(World& world) {
   });
 
   world.Each<RenderableText>([&](entity::Entity, const RenderableText& renderable) {
-    if (!renderable.visible_ || renderable.font_ == nullptr) {
+    if (!renderable.visible_ || renderable.text_.empty() || renderable.font_ == nullptr ||
+        renderable.font_->path == nullptr) {
       return;
     }
 
     platform::Font& native_font = text_manager_.GetOrCreateNativeFont(renderable.font_);
-    platform::Text& native_text = text_manager_.GetNextText(renderable.text_, native_font);
+    platform::Text& native_text = text_manager_.GetNextText(renderable.text_.c_str(), native_font);
 
-    native_renderer_.DrawText(native_text, renderable.x_, renderable.y_, renderable.color_);
+    native_renderer_.DrawText(native_text, renderable.x_, renderable.y_, renderable.thickness_,
+                              renderable.color_);
   });
 }
 

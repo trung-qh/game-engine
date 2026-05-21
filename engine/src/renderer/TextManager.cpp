@@ -13,16 +13,17 @@ TextManager::~TextManager() {}
 void TextManager::BeginFrame() { next_text_index_ = 0; }
 
 platform::Font& TextManager::GetOrCreateNativeFont(core::Font* font) {
-  auto it = fonts_.find(font);
-  if (it != fonts_.end()) {
-    return *it->second;
+  const std::string path = font->path;
+
+  auto& cached_font = fonts_[font];
+  if (cached_font.native_font == nullptr || cached_font.path != path ||
+      cached_font.size != font->size) {
+    cached_font.path = path;
+    cached_font.size = font->size;
+    cached_font.native_font = std::make_unique<platform::Font>(font->path, font->size);
   }
 
-  auto native_font = std::make_unique<platform::Font>(font->path, font->size);
-  auto& font_ref = *native_font;
-  fonts_[font] = std::move(native_font);
-
-  return font_ref;
+  return *cached_font.native_font;
 }
 
 platform::Text& TextManager::GetNextText(const char* text, const platform::Font& font) {
